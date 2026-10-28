@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineVerse | Movie Universe</title>
+    <meta
+      name="description"
+      content="CineVerse — a modern IMDb-inspired movie discovery platform with bookmarks, search, trending picks, and watchlist features."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-wrap">
+          <div class="brand-mark">C</div>
+          <div class="brand-text">
+            <span class="brand-name">CineVerse</span>
+            <span class="brand-sub">Movie hub</span>
+          </div>
+        </div>
+
+        <nav class="main-nav" aria-label="Main navigation">
+          <a class="active" href="#">Home</a>
+          <a href="#">Movies</a>
+          <a href="#">TV Shows</a>
+          <a href="#">New & Popular</a>
+          <a href="#">My List</a>
+        </nav>
+
+        <div class="header-actions">
+          <label class="search-box" aria-label="Search movies">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M10.5 3a7.5 7.5 0 015.9 12.8l4.4 4.4 1.4-1.4-4.4-4.4A7.5 7.5 0 1110.5 3zm0 2a5.5 5.5 0 100 11 5.5 5.5 0 000-11z"/>
+            </svg>
+            <input id="searchInput" type="search" placeholder="Search a movie, genre, or actor" />
+          </label>
+          <button class="icon-button" aria-label="Notifications">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 22a2.5 2.5 0 002.45-2h-4.9A2.5 2.5 0 0012 22zm7-6V11a7 7 0 10-14 0v5l-2 2v1h18v-1l-2-2z"/>
+            </svg>
+          </button>
+          <button class="profile-button" aria-label="User profile">
+            <span class="profile-avatar">F</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="page-layout">
+        <section class="hero-section">
+          <div class="hero-content">
+            <div class="hero-tag-row">
+              <span class="hero-badge">Featured Premiere</span>
+              <span class="rating-pill">★ 8.9</span>
+            </div>
+            <h1 id="featuredTitle">Midnight Circuit</h1>
+            <div class="meta-strip">
+              <span id="featuredYear">2025</span>
+              <span id="featuredGenre">Sci-Fi</span>
+              <span id="featuredRuntime">2h 12m</span>
+            </div>
+            <p id="featuredDescription">
+              A rogue hacker joins a street-racing syndicate in a neon-drenched city where the lines between reality and memory have vanished.
+            </p>
+            <div class="hero-actions">
+              <button class="primary-btn">▶ Watch now</button>
+              <button class="secondary-btn" id="featuredBookmarkBtn">+ My list</button>
+            </div>
+            <div class="hero-stats">
+              <div>
+                <strong id="featuredVotes">1.2M</strong>
+                <span>votes</span>
+              </div>
+              <div>
+                <strong id="featuredAwards">8</strong>
+                <span>awards</span>
+              </div>
+              <div>
+                <strong id="featuredStatus">PG-13</strong>
+                <span>rating</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-poster-wrap">
+            <div class="poster-glow"></div>
+            <img id="featuredPoster" src="" alt="Featured movie poster" />
+          </div>
+        </section>
+
+        <section class="toolbar">
+          <div class="toolbar-left">
+            <button class="chip active" data-genre="all">All</button>
+            <button class="chip" data-genre="Action">Action</button>
+            <button class="chip" data-genre="Sci-Fi">Sci-Fi</button>
+            <button class="chip" data-genre="Drama">Drama</button>
+            <button class="chip" data-genre="Thriller">Thriller</button>
+            <button class="chip" data-genre="Comedy">Comedy</button>
+            <button class="chip" data-genre="Fantasy">Fantasy</button>
+          </div>
+          <div class="toolbar-right">
+            <button class="chip soft" data-sort="popularity">Popular</button>
+            <button class="chip soft" data-sort="new">Newest</button>
+          </div>
+        </section>
+
+        <div class="content-grid">
+          <section class="main-content">
+            <div class="section-heading">
+              <div>
+                <span class="eyebrow">Trending now</span>
+                <h2>Discover</h2>
+              </div>
+              <a href="#">View all</a>
+            </div>
+            <div id="movieGrid" class="movie-grid" aria-live="polite"></div>
+          </section>
+
+          <aside class="side-panel">
+            <div class="watchlist-card">
+              <div class="panel-head">
+                <h3>My Watchlist</h3>
+                <span id="bookmarkCount">0</span>
+              </div>
+              <div id="bookmarkList" class="bookmark-list"></div>
+            </div>
+
+            <div class="mini-panel">
+              <h3>Top picks</h3>
+              <ul class="rank-list">
+                <li>
+                  <span>01</span>
+                  <div>
+                    <strong>Atlas Run</strong>
+                    <small>Action • 8.7</small>
+                  </div>
+                </li>
+                <li>
+                  <span>02</span>
+                  <div>
+                    <strong>Glass Harbor</strong>
+                    <small>Drama • 8.5</small>
+                  </div>
+                </li>
+                <li>
+                  <span>03</span>
+                  <div>
+                    <strong>Shadow Ridge</strong>
+                    <small>Thriller • 8.8</small>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </aside>
+        </div>
+      </main>
+    </div>
+
+    <div id="movieModal" class="modal hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close="true"></div>
+      <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="modal-close" aria-label="Close movie modal" data-close="true">×</button>
+        <div class="modal-poster-wrap">
+          <img id="modalPoster" src="" alt="Movie poster" />
+        </div>
+        <div class="modal-content-box">
+          <div class="modal-header-row">
+            <div>
+              <span class="modal-tag">Now showing</span>
+              <h3 id="modalTitle">Movie Name</h3>
+            </div>
+            <button id="modalBookmarkBtn" class="bookmark-badge">+ Watchlist</button>
+          </div>
+
+          <div class="modal-meta">
+            <span id="modalYear">2025</span>
+            <span id="modalGenre">Action</span>
+            <span id="modalRuntime">2h 10m</span>
+            <span id="modalRating">★ 8.7</span>
+          </div>
+
+          <p id="modalDescription"></p>
+
+          <div class="modal-tags" id="modalTags"></div>
+
+          <div class="modal-actions">
+            <button class="primary-btn modal-action">▶ Play trailer</button>
+            <button class="secondary-btn modal-action">♡ Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
