@@ -419,6 +419,7 @@ button {
 
 .main-content {
   min-width: 0;
+  scroll-margin-top: 120px;
 }
 
 .section-heading {
@@ -454,6 +455,16 @@ button {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 18px;
+}
+
+.movie-empty {
+  grid-column: 1 / -1;
+  padding: 30px 18px;
+  border: 1px dashed rgba(255, 255, 255, 0.12);
+  border-radius: 18px;
+  color: var(--muted);
+  text-align: center;
+  line-height: 1.6;
 }
 
 .movie-card {

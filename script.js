@@ -146,6 +146,7 @@ const movieData = [
 ];
 
 const state = {
+  activeView: "home",
   activeGenre: "all",
   activeSort: "popularity",
   searchTerm: "",
@@ -154,6 +155,8 @@ const state = {
 
 const elements = {
   movieGrid: document.getElementById("movieGrid"),
+  movieSectionEyebrow: document.getElementById("movieSectionEyebrow"),
+  movieSectionTitle: document.getElementById("movieSectionTitle"),
   searchInput: document.getElementById("searchInput"),
   bookmarkList: document.getElementById("bookmarkList"),
   bookmarkCount: document.getElementById("bookmarkCount"),
@@ -206,6 +209,14 @@ function toggleBookmark(movieId) {
 
 function getFilteredMovies() {
   let filtered = [...movieData];
+
+  if (state.activeView === "popular") {
+    filtered = filtered.filter((movie) => movie.hot);
+  } else if (state.activeView === "watchlist") {
+    filtered = filtered.filter((movie) => isBookmarked(movie.id));
+  } else if (state.activeView === "tv-shows") {
+    filtered = [];
+  }
 
   if (state.searchTerm) {
     const term = state.searchTerm.toLowerCase();
@@ -264,11 +275,27 @@ function updateFeaturedBookmarkState(featuredId = null) {
 
 function renderMovies() {
   const movies = getFilteredMovies();
+  const sectionContent = {
+    home: ["Trending now", "Discover"],
+    movies: ["Browse the collection", "Movies"],
+    "tv-shows": ["Coming soon", "TV Shows"],
+    popular: ["Fan favorites", "New & Popular"],
+    watchlist: ["Your collection", "My List"]
+  }[state.activeView];
+
+  elements.movieSectionEyebrow.textContent = sectionContent[0];
+  elements.movieSectionTitle.textContent = sectionContent[1];
 
   if (!movies.length) {
+    const emptyMessage = state.activeView === "tv-shows"
+      ? "TV shows are coming soon. Browse the movie collection in the meantime."
+      : state.activeView === "watchlist" && !state.searchTerm
+        ? "Your list is empty. Save movies to see them here."
+        : "No movies match your search or selected filters.";
+
     elements.movieGrid.innerHTML = `
-      <div class="bookmark-empty" style="grid-column: 1 / -1; padding: 30px 18px; border: 1px dashed rgba(255,255,255,0.12); border-radius: 18px;">
-        No movies match your search or selected genre.
+      <div class="movie-empty" role="status">
+        ${emptyMessage}
       </div>
     `;
     return;
@@ -377,6 +404,39 @@ function closeMovieModal() {
 }
 
 function attachEvents() {
+  document.querySelectorAll("[data-view]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      const { view } = link.dataset;
+
+      state.activeView = view;
+      state.activeGenre = "all";
+      state.activeSort = "popularity";
+      state.searchTerm = "";
+      elements.searchInput.value = "";
+
+      document.querySelectorAll(".main-nav [data-view]").forEach((navLink) => {
+        const isActive = navLink.dataset.view === view;
+        navLink.classList.toggle("active", isActive);
+        if (isActive) {
+          navLink.setAttribute("aria-current", "page");
+        } else {
+          navLink.removeAttribute("aria-current");
+        }
+      });
+
+      document
+        .querySelectorAll(".chip[data-genre]")
+        .forEach((chip) => chip.classList.toggle("active", chip.dataset.genre === "all"));
+      document
+        .querySelectorAll(".chip[data-sort]")
+        .forEach((chip) => chip.classList.toggle("active", chip.dataset.sort === "popularity"));
+
+      renderMovies();
+      document.getElementById(view === "home" ? "home" : "movies").scrollIntoView();
+    });
+  });
+
   elements.searchInput.addEventListener("input", (event) => {
     state.searchTerm = event.target.value.trim();
     renderMovies();
